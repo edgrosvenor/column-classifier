@@ -1,0 +1,30 @@
+{
+    "name": "edgrosvenor/column-classifier",
+    "description": "Laravel package that helps identify what type of data is held in a collection",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ed Grosvenor",
+            "email": "ed.grosvenor@wickedviral.com"
+        }
+    ],
+    "require": {
+        "illuminate/support": "^6.0|^7,0",
+        "calebporzio/sushi": "^1.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^4.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "ColumnClassifier\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/",
+            "App\\": "vendor/orchestra/testbench-core/laravel/app"
+        }
+    }
+}
