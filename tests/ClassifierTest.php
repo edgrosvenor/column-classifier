@@ -17,7 +17,7 @@ class ClassifierTest extends TestCase
     public function can_find_first_name()
     {
         $rows = collect([
-            'Ed', 'Simon', 'Barry', 'Milo', 'Justine', 'Justin', 'Kim'
+            'Ed', 'Simon', 'Barry', 'Milo', 'Justine', 'Justin', 'Kim',
         ]);
 
         $classify = new Classifier($rows);
@@ -33,14 +33,14 @@ class ClassifierTest extends TestCase
             'Barry Tarter',
             'Simon Clements',
             'Ed Grosvenor',
-            'Sam Morgan'
+            'Sam Morgan',
         ]);
 
         $classify = new Classifier($rows);
 
         $this->assertEquals('full_name', $classify->execute());
-
     }
+
     /** @test */
     public function can_find_phone()
     {
@@ -48,7 +48,7 @@ class ClassifierTest extends TestCase
             '(800) 588-2300',
             '800.588.2300',
             '800-5882300',
-            '1(800)588-2300'
+            '1(800)588-2300',
         ]);
 
         $classify = new Classifier($rows);
@@ -64,7 +64,7 @@ class ClassifierTest extends TestCase
             'ed.grosvenor+this@wickedviral.com',
             'taylor@laravel.com',
             'god@heaven.info',
-            'poo@toilet.app'
+            'poo@toilet.app',
         ]);
 
         $classify = new Classifier($rows);
@@ -76,18 +76,19 @@ class ClassifierTest extends TestCase
     public function can_find_city()
     {
         $rows = collect([
-            'Manchester', 'Chicago', 'Libertyville', 'Antioch', 'Los Angeles', 'London'
+            'Manchester', 'Chicago', 'Libertyville', 'Antioch', 'Los Angeles', 'London',
         ]);
 
         $classify = new Classifier($rows);
 
         $this->assertEquals('city', $classify->execute());
     }
+
     /** @test */
     public function can_find_state()
     {
         $rows = collect([
-            'Illinois', 'Michigan', 'Wisconsin', 'California', 'Mississippi'
+            'Illinois', 'Michigan', 'Wisconsin', 'California', 'Mississippi',
         ]);
 
         $classify = new Classifier($rows);
@@ -109,13 +110,14 @@ class ClassifierTest extends TestCase
     public function can_find_zip_code()
     {
         $rows = collect([
-            '60048', '50043', '60603', '10043', 20024, 35392, 39912, 88832
+            '60048', '50043', '60603', '10043', 20024, 35392, 39912, 88832,
         ]);
 
         $classify = new Classifier($rows);
 
         $this->assertEquals('zip_code', $classify->execute());
     }
+
     /** @test */
     public function can_find_country()
     {
@@ -130,7 +132,7 @@ class ClassifierTest extends TestCase
     public function can_find_country_code()
     {
         $rows = collect([
-            'US', 'GB', 'NZ', 'IT', 'IR'
+            'US', 'GB', 'NZ', 'IT', 'IR',
         ]);
 
         $classify = new Classifier($rows);
@@ -146,7 +148,7 @@ class ClassifierTest extends TestCase
             'GBP',
             'CFH',
             'ALL',
-            'AFN'
+            'AFN',
         ]);
 
         $classify = new Classifier($rows);
@@ -162,7 +164,7 @@ class ClassifierTest extends TestCase
             'Sports Authority',
             'Spatie',
             'Fingerhut',
-            'Sunglass Hut'
+            'Sunglass Hut',
         ]);
 
         $classify = new Classifier($rows);
@@ -177,7 +179,7 @@ class ClassifierTest extends TestCase
             'Admiral',
             'CEO',
             'Head Waiter',
-            'Taproom Attendant'
+            'Taproom Attendant',
         ]);
 
         $classify = new Classifier($rows);

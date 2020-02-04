@@ -1,10 +1,7 @@
 <?php
 
-
 namespace ColumnClassifier;
 
-
-use Illuminate\Support\Collection;
 use ColumnClassifier\Models\City;
 use ColumnClassifier\Models\Country;
 use ColumnClassifier\Models\Currency;
@@ -12,6 +9,7 @@ use ColumnClassifier\Models\FirstName;
 use ColumnClassifier\Models\JobTitle;
 use ColumnClassifier\Models\Surname;
 use ColumnClassifier\Models\USState;
+use Illuminate\Support\Collection;
 
 class Classifier
 {
@@ -23,39 +21,37 @@ class Classifier
     {
         $this->data = $data;
         $this->results = [
-            'first_name' => 0,
-            'last_name' => 0,
-            'full_name' => 0,
-            'phone' => 0,
-            'email' => 0,
-            'city' => 0,
-            'state' => 0,
-            'state_abbr' => 0,
-            'zip_code' => 0,
-            'country' => 0,
+            'first_name'   => 0,
+            'last_name'    => 0,
+            'full_name'    => 0,
+            'phone'        => 0,
+            'email'        => 0,
+            'city'         => 0,
+            'state'        => 0,
+            'state_abbr'   => 0,
+            'zip_code'     => 0,
+            'country'      => 0,
             'country_code' => 0,
-            'currency' => 0,
-            'company' => 0,
-            'job_title' => 0,
-            'sentence' => 0,
-            'paragraph' => 0,
-            'html' => 0
+            'currency'     => 0,
+            'company'      => 0,
+            'job_title'    => 0,
+            'sentence'     => 0,
+            'paragraph'    => 0,
+            'html'         => 0,
         ];
-
     }
 
     public function execute()
     {
-        $this->data->each(function($row) {
+        $this->data->each(function ($row) {
             foreach ($this->results as $k => $v) {
                 $this->results[$k] += $this->$k($row);
             }
         });
-        $this->results['word'] = (int)$this->data->count() / 2;
+        $this->results['word'] = (int) $this->data->count() / 2;
         asort($this->results);
 
         return last(array_keys($this->results));
-
     }
 
     private function first_name($row)
@@ -71,7 +67,7 @@ class Classifier
     private function full_name($row)
     {
         $parts = explode(' ', $row);
-        if (sizeof($parts) < 2 || sizeof($parts) > 4) {
+        if (count($parts) < 2 || count($parts) > 4) {
             return 0;
         }
         foreach ($parts as $part) {
@@ -82,12 +78,14 @@ class Classifier
                 return 1;
             }
         }
+
         return 0;
     }
 
     public function phone($row)
     {
         $numbers = ltrim(preg_replace(['/[^0-9]/'], '', $row), '1');
+
         return strlen($numbers) === 10;
     }
 
@@ -113,7 +111,7 @@ class Classifier
 
     public function zip_code($row)
     {
-        return is_numeric(trim((string)$row)) && strlen(trim((string)$row)) === 5;
+        return is_numeric(trim((string) $row)) && strlen(trim((string) $row)) === 5;
     }
 
     public function country($row)
@@ -126,6 +124,7 @@ class Classifier
         if ($this->state_abbr($row)) {
             return 0;
         }
+
         return Country::where('code', strtolower(trim($row)))->count();
     }
 
@@ -142,7 +141,7 @@ class Classifier
         if (strlen($row) < 4) {
             return 0;
         }
-        if (sizeof(explode(' ', $row)) > 3) {
+        if (count(explode(' ', $row)) > 3) {
             return 0;
         }
         if (ucwords($row) != $row) {
@@ -166,17 +165,16 @@ class Classifier
 
     public function sentence($row)
     {
-        return sizeof(explode(' ', $row)) > 4 && in_array(substr($row, -1), ['.', '?', '!']) && sizeof(preg_split($this->sentence_regex, $row, -1, PREG_SPLIT_NO_EMPTY)) < 2;
+        return count(explode(' ', $row)) > 4 && in_array(substr($row, -1), ['.', '?', '!']) && count(preg_split($this->sentence_regex, $row, -1, PREG_SPLIT_NO_EMPTY)) < 2;
     }
 
     public function paragraph($row)
     {
-        return sizeof(preg_split($this->sentence_regex, $row, -1, PREG_SPLIT_NO_EMPTY)) > 1;
+        return count(preg_split($this->sentence_regex, $row, -1, PREG_SPLIT_NO_EMPTY)) > 1;
     }
 
     public function html($row)
     {
         return $row != strip_tags($row);
-
     }
 }
