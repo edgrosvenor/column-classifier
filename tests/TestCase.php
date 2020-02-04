@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use ColumnClassifier\ColumnClassifierServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
@@ -10,10 +9,7 @@ class TestCase extends BaseTestCase
     public function setUp(): void
     {
         parent::setUp();
-
     }
-
-
 
     protected function getEnvironmentSetUp($app)
     {
